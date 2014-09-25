@@ -33,6 +33,7 @@ public class TaskEndpoint
    public Response create(Task entity)
    {
       em.persist(entity);
+      System.setProperty("jsse.enableSNIExtension", "false");
       JavaSender defaultJavaSender = new SenderClient.Builder("https://javaoneups-sblanc.rhcloud.com/ag-push/").build();
      
       UnifiedMessage unifiedMessage = new UnifiedMessage.Builder()
