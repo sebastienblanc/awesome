@@ -12,7 +12,11 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
+
 import org.awesome.model.Task;
+import org.jboss.aerogear.unifiedpush.JavaSender;
+import org.jboss.aerogear.unifiedpush.SenderClient;
+import org.jboss.aerogear.unifiedpush.message.UnifiedMessage;
 
 /**
  * 
@@ -29,6 +33,15 @@ public class TaskEndpoint
    public Response create(Task entity)
    {
       em.persist(entity);
+      JavaSender defaultJavaSender = new SenderClient.Builder("https://javaoneups-sblanc.rhcloud.com/ag-push/").build();
+     
+      UnifiedMessage unifiedMessage = new UnifiedMessage.Builder()
+              .pushApplicationId("586ececd-bce1-48e1-9e49-080127a02150")
+              .masterSecret("7fa8d801-fdd0-40a8-843e-48c1216f08fe")
+              .alert("Task : " + entity.getName() + " has been created")
+              .build();
+      defaultJavaSender.send(unifiedMessage);
+      
       return Response.created(UriBuilder.fromResource(TaskEndpoint.class).path(String.valueOf(entity.getId())).build()).build();
    }
 
