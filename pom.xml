@@ -64,6 +64,11 @@
       <artifactId>jsr250-api</artifactId>
       <scope>provided</scope>
     </dependency>
+     <dependency>
+          <groupId>org.keycloak</groupId>
+          <artifactId>keycloak-as7-adapter</artifactId>
+          <version>1.0.1.Final</version>
+     </dependency>
   </dependencies>
   <build>
     <finalName>awesome</finalName>
